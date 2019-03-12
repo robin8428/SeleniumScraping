@@ -2,8 +2,8 @@ package data;
 
 public class Amount {
 	
-	float amount;
-	String currency;
+	public float amount;
+	public String currency;
 	
 	public Amount(float amount, String currency) {
 		this.amount = amount;
