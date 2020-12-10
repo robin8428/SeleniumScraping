@@ -1,1 +1,7 @@
+*.class
 /bin/
+/.gradle/
+/build/
+/out/
+SeleniumScraping*.jar
+/src/main/resources/config.properties
