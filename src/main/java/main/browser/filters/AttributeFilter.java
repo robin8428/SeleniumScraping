@@ -1,6 +1,8 @@
 package main.browser.filters;
 
+import java.util.Arrays;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -25,8 +27,13 @@ public class AttributeFilter {
 	}
 
 
+	protected String buildRaw() {
+		return ".//*[" + buildInternal() + "]";
+	}
+
+
 	public By build() {
-		String filter = ".//*[" + buildInternal() + "]";
+		String filter = buildRaw();
 		LOG.trace("searching for element with filter: " + filter);
 		return By.xpath(filter);
 	}
@@ -100,7 +107,34 @@ public class AttributeFilter {
 	}
 
 
-	public AttributeFilter text(StringOperation operation) {
+	public static AttributeFilter text(StringOperation operation) {
 		return new AttributeFilter("text()", operation);
+	}
+
+
+	public static AttributeFilter name(String nameTag, AttributeFilter otherConditions) {
+		return new AttributeFilter(otherConditions.attributeIdentifier, otherConditions.operation) {
+
+			@Override
+			public String buildRaw() {
+				return ".//" + nameTag.toLowerCase() + "[" + buildInternal() + "]";
+			}
+		};
+	}
+
+
+	public static AttributeFilter concat(AttributeFilter... filters) {
+		String combinedPath = "." + Arrays.stream(filters)
+				.map(AttributeFilter::buildRaw)
+				.map(s -> s.replaceFirst("^\\.?//", "//"))
+				.collect(Collectors.joining(""));
+
+		return new AttributeFilter("", null) {
+
+			@Override
+			public String buildRaw() {
+				return combinedPath;
+			}
+		};
 	}
 }
