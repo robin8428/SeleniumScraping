@@ -67,6 +67,17 @@ public class AttributeFilter {
 	}
 
 
+	public static AttributeFilter not(AttributeFilter filter) {
+		return new AttributeFilter("", null) {
+
+			@Override
+			protected String buildInternal() {
+				return "not(" + filter.buildInternal() + ")";
+			}
+		};
+	}
+
+
 	public static AttributeFilter attribute(String attribute, StringOperation operation) {
 		return new AttributeFilter("@" + attribute, operation);
 	}
