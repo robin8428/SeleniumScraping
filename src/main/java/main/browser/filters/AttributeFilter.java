@@ -134,6 +134,17 @@ public class AttributeFilter {
 	}
 
 
+	public static AttributeFilter name(String nameTag) {
+		return new AttributeFilter("", StringOperation.any()) {
+
+			@Override
+			public String buildRaw() {
+				return ".//" + nameTag.toLowerCase() + "[" + buildInternal() + "]";
+			}
+		};
+	}
+
+
 	public static AttributeFilter concat(AttributeFilter... filters) {
 		String combinedPath = "." + Arrays.stream(filters)
 				.map(AttributeFilter::buildRaw)

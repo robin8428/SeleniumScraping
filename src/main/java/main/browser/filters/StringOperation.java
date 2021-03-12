@@ -52,6 +52,17 @@ public class StringOperation implements InvocableCharSequence<AttributeFilter> {
 	}
 
 
+	public static StringOperation any() {
+		return new StringOperation("") {
+
+			@Override
+			public String invoke(AttributeFilter filter) {
+				return "*";
+			}
+		};
+	}
+
+
 	public static StringOperation eq(String value) {
 		return new StringOperation("") {
 
