@@ -1,3 +1,3 @@
 call gradlew shadowJar
-move build\libs\Screenscraping*.jar .\SeleniumScraping.jar
+move build\libs\SeleniumScraping*.jar .\SeleniumScraping.jar
 pause
